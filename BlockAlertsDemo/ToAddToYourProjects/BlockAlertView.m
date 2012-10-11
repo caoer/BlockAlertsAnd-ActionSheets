@@ -306,6 +306,44 @@ static UIFont *buttonFont = nil;
 								[[NSNotificationCenter defaultCenter] postNotificationName:@"AlertViewFinishedAnimations" object:nil];
 							 }];
 		}
+		break;
+		case kAlertViewAnimationPopIn: {
+			_view.alpha=1.0;
+			[BlockBackground sharedInstance].alpha = 1.0f;
+			__block CGPoint center = _view.center;
+			center.y = floorf([BlockBackground sharedInstance].bounds.size.height * 0.5);
+			_view.center = center;
+			_view.transform = CGAffineTransformMakeScale(0.5, 0.5);
+			
+			[UIView animateWithDuration:0.2
+							 animations:^{
+								 _view.transform = CGAffineTransformMakeScale(1.05, 1.05);
+								 _view.alpha = 0.8;
+							 }
+							 completion:^(BOOL finished){
+								 [UIView animateWithDuration:1/15.0
+												  animations:^{
+													  _view.transform = CGAffineTransformMakeScale(0.9, 0.9);
+													  _view.alpha = 0.9;
+												  }
+												  completion:^(BOOL finished) {
+													  [UIView animateWithDuration:1/7.5
+																	   animations:^{
+																		   _view.transform = CGAffineTransformIdentity;
+																		   _view.alpha = 1.0;
+																	   }
+																	   completion:^(BOOL finished) {
+																		   [[NSNotificationCenter defaultCenter] postNotificationName:@"AlertViewFinishedAnimations" object:nil];
+																	   }
+													   ];
+												  }
+								  ];
+							 }
+			 ];
+			
+
+		}
+		break;
 		default:
 			break;
 	}
@@ -360,7 +398,7 @@ static UIFont *buttonFont = nil;
 													  }];
 								 }];
 				}
-				break;
+			break;
 			case kAlertViewAnimationFadeIn:
 			{
 
@@ -373,6 +411,31 @@ static UIFont *buttonFont = nil;
 										   _view = nil;
 										   _selfRetain = nil;
 					   }];
+			}
+			break;
+			case kAlertViewAnimationPopIn:
+			{
+			
+			[UIView animateWithDuration:0.1 animations:^{
+				_view.transform = CGAffineTransformMakeScale(1.1, 1.1);
+				_view.alpha=0.8f;
+			}
+			completion:^(BOOL finished) {
+								 
+								 [UIView animateWithDuration:0.2 animations:^{
+									 _view.transform = CGAffineTransformMakeScale(0.5,0.5);
+									 _view.alpha=0.2f;
+									 [[BlockBackground sharedInstance] reduceAlphaIfEmpty];
+								 }
+								 
+								  completion:^(BOOL finished) {
+									 [[BlockBackground sharedInstance] removeView:_view];
+									 _view = nil;
+									 _selfRetain = nil;
+								  
+								  }];
+				}];
+			break;
 			}
 		}
 

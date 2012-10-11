@@ -8,6 +8,7 @@
 enum {
     kAlertViewAnimationSlideFromTop = 1, // Default, slide from top
     kAlertViewAnimationFadeIn,	// Fade in
+	kAlertViewAnimationPopIn,	//UIAlertview-like pop in
 };
 typedef NSUInteger kAlertViewAnimationType;
 
