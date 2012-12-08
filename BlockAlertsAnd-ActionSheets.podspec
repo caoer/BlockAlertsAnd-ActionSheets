@@ -75,7 +75,7 @@ Pod::Spec.new do |s|
   # over the selected files.
   # (See http://rake.rubyforge.org/classes/Rake/FileList.html.)
   #
-  s.source_files = 'Classes', 'Classes/**/*.{h,m}'
+  s.source_files = 'Classes', 'BlockAlertsDemo/Classes/**/*.{h,m}'
 
   # A list of file patterns which select the header files that should be
   # made available to the application. If the pattern is a directory then the
@@ -94,7 +94,7 @@ Pod::Spec.new do |s|
   # Also allows the use of the FileList class like `source_files does.
   #
   # s.resource  = "icon.png"
-  # s.resources = "Resources/*.png"
+  s.resources = "BlockAlertsDemo/images/*.png"
 
   # A list of paths to preserve after installing the Pod.
   # CocoaPods cleans by default any file that is not used.
