@@ -17,7 +17,7 @@ static UIImage *background = nil;
 static UIFont *titleFont = nil;
 static UIFont *messageFont = nil;
 static UIFont *buttonFont = nil;
-
+static kAlertViewAnimationType defaultBlockAlertViewAnimationType = kAlertViewAnimationPopIn;
 #pragma mark - init
 
 + (void)initialize
@@ -457,5 +457,47 @@ static UIFont *buttonFont = nil;
     int buttonIndex = [sender tag] - 1;
     [self dismissWithClickedButtonIndex:buttonIndex animated:YES];
 }
+#pragma mark - Convenient Methods
++ (void)showAlertWithMessage:(NSString *)message
+                 cancelTitle:(NSString *)cancelTitle {
+    [self showAlertWithTitle:nil message:message cancelTitle:cancelTitle];
+}
 
++ (void)showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+               cancelTitle:(NSString *)cancelTitle {
+    [self showAlertWithTitle:title message:message cancelTitle:cancelTitle cancelBlock:nil];
+}
+
++ (void)showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+               cancelTitle:(NSString *)cancelTitle
+               cancelBlock:(void (^)(void))cancelBlock {
+    [self showAlertWithTitle:title
+                     message:message
+                 cancelTitle:cancelTitle
+                 cancelBlock:cancelBlock
+                confirmTitle:nil
+                confirmBlock:nil
+               animationType:defaultBlockAlertViewAnimationType];
+}
+
++ (void)showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+               cancelTitle:(NSString *)cancelTitle
+               cancelBlock:(void (^)(void))cancelBlock
+              confirmTitle:(NSString *)confirmTitle
+              confirmBlock:(void (^)(void))confirmBlock
+             animationType:(kAlertViewAnimationType)animationType
+{
+    BlockAlertView *alert = [BlockAlertView alertWithTitle:title message:message];
+    if (cancelTitle != nil) {
+        [alert setDestructiveButtonWithTitle:cancelTitle block:cancelBlock];
+    }
+    if (confirmTitle != nil) {
+        [alert addButtonWithTitle:confirmTitle block:confirmBlock];
+    }
+    [alert showWithAnimation:animationType];
+    
+}
 @end

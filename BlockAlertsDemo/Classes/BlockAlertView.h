@@ -31,11 +31,31 @@ typedef NSUInteger kAlertViewAnimationType;
 - (void)addButtonWithTitle:(NSString *)title block:(void (^)())block;
 
 - (void)show;
-- (void) showWithAnimation:(kAlertViewAnimationType)_animationType;
+- (void)showWithAnimation:(kAlertViewAnimationType)_animationType;
 - (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated;
 
 @property (nonatomic, assign) UIImage *backgroundImage;
 @property (nonatomic, readonly) UIView *view;
 @property (nonatomic, readwrite) BOOL vignetteBackground;
 
+#pragma mark - Convenient Methods
++ (void)showAlertWithMessage:(NSString *)message
+                 cancelTitle:(NSString *)cancelTitle;
+
++ (void)showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+               cancelTitle:(NSString *)cancelTitle;
+
++ (void)showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+               cancelTitle:(NSString *)cancelTitle
+               cancelBlock:(void (^)(void))cancelBlock;
+
++ (void)showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+               cancelTitle:(NSString *)cancelTitle
+               cancelBlock:(void (^)(void))cancelBlock
+              confirmTitle:(NSString *)confirmTitle
+              confirmBlock:(void (^)(void))confirmBlock
+             animationType:(kAlertViewAnimationType)animationType;
 @end
